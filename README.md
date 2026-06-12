@@ -1,24 +1,22 @@
-# openmediavault home server
+# Home server setup guilde
 
-a deployment reference for setting up openmediavault on repurposed consumer laptop hardware, with emphasis on system stability, flash storage preservation, and explicit hardware control.
+A deployment reference for setting up openmediavault on repurposed consumer laptop hardware, with emphasis on system stability, flash storage preservation, and explicit hardware control.
 
-
-
-## table of contents
+## Table of contents
 
 - [hardware overview](#hardware-overview)
 - [storage topology](#storage-topology)
-- [milestone a — bios initialization](#milestone-a--bios-initialization)
-- [milestone b — os installation](#milestone-b--os-installation)
-- [milestone c — network rectification](#milestone-c--network-rectification)
-- [milestone d — system hardening and plugins](#milestone-d--system-hardening-and-plugins)
-- [milestone e — storage integration](#milestone-e--storage-integration)
+- [bios initialization](#bios-initialization)
+- [os installation](#os-installation)
+- [network rectification](#network-rectification)
+- [system hardening and plugins](#system-hardening-and-plugins)
+- [storage integration](#storage-integration)
 
 
 
 ## hardware overview
 
-| component | detail |
+| Component | Detail |
 |||
 | chassis | acer aspire es-575 |
 | power | direct ac only (battery depleted) |
@@ -26,24 +24,24 @@ a deployment reference for setting up openmediavault on repurposed consumer lapt
 | boot environment | uefi |
 | wi-fi module | physically removed |
 
-the wi-fi module is removed to eliminate interface conflicts and enforce ethernet as the sole network path.
+The wi-fi module is removed to eliminate interface conflicts and enforce ethernet as the sole network path.
 
 
 
 ## storage topology
 
-| drive | capacity | state during install | purpose | filesystem |
+| Drive | Capacity | State during install | Purpose | Filesystem |
 ||||||
 | ventoy usb | variable | connected | installation media | exfat / fat32 |
 | target usb | 8 gb | connected | host os (omv) | ext4 |
 | primary ssd | 1 tb | **disconnected** | hot storage — docker, databases, active projects | ext4 / btrfs |
 | secondary hdd | 1 tb | **disconnected** | cold storage — archives, media, backups | ext4 |
 
-the ssd and hdd are deliberately disconnected during installation to prevent misidentification by the installer.
+The ssd and hdd are deliberately disconnected during installation to prevent misidentification by the installer.
 
 
 
-## milestone a — bios initialization
+## bios initialization
 
 1. access bios via `f2` on boot.
 2. navigate to **security** and set a temporary supervisor password to unlock secure boot controls.
@@ -55,7 +53,7 @@ the ssd and hdd are deliberately disconnected during installation to prevent mis
 
 
 
-## milestone b — os installation
+## os installation
 
 1. trigger the boot menu with `f12` and boot the ventoy usb in uefi mode.
 2. select and boot the openmediavault iso from the ventoy menu.
@@ -73,7 +71,7 @@ the ssd and hdd are deliberately disconnected during installation to prevent mis
 
 
 
-## milestone c — network rectification
+## network rectification
 
 triggered if the server does not bind the configured ip address after installation.
 
@@ -93,7 +91,7 @@ triggered if the server does not bind the configured ip address after installati
 
 
 
-## milestone d — system hardening and plugins
+## system hardening and plugins
 
 1. connect via ssh:
 
@@ -118,7 +116,7 @@ triggered if the server does not bind the configured ip address after installati
 
 
 
-## milestone e — storage integration
+## storage integration
 
 *pending next phase — drives are currently disconnected.*
 
