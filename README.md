@@ -17,7 +17,7 @@ A deployment reference for setting up openmediavault on repurposed consumer lapt
 ## hardware overview
 
 | Component | Detail |
-|||
+|---|---|
 | chassis | acer aspire es-575 |
 | power | direct ac only (battery depleted) |
 | network | built-in gigabit ethernet (hardwired) |
@@ -31,7 +31,7 @@ The wi-fi module is removed to eliminate interface conflicts and enforce etherne
 ## storage topology
 
 | Drive | Capacity | State during install | Purpose | Filesystem |
-||||||
+|---|---|---|---|---|
 | ventoy usb | variable | connected | installation media | exfat / fat32 |
 | target usb | 8 gb | connected | host os (omv) | ext4 |
 | primary ssd | 1 tb | **disconnected** | hot storage — docker, databases, active projects | ext4 / btrfs |
