@@ -14,6 +14,7 @@ A deployment reference for setting up openmediavault on repurposed consumer lapt
 - [data migration](#data-migration)
 - [hot storage setup](#hot-storage-setup)
 - [media server deployment](#media-server-deployment)
+- [mapping server shares on windows](#mapping-server-shares-on-windows)
 - [sysadmin troubleshooting](#sysadmin-troubleshooting)
 
 
@@ -194,6 +195,76 @@ triggered if the server does not bind the configured ip address after installati
 7. map the `/data/movies` and `/data/tvshows` volumes to their respective folders on the `ColdStorage` hdd (enclose paths with spaces in quotation marks).
 8. click **up** to pull the `linuxserver/jellyfin` image and start the container.
 9. access the setup wizard via `http://[SERVER_IP]:8096`.
+
+
+
+## mapping server shares on windows
+
+adding the server shares directly to file explorer makes them behave like native drives on a windows pc. this is done by mapping a network drive, which assigns the share a dedicated drive letter (e.g. `z:`), making it more compatible with windows software and games than a plain network location shortcut.
+
+1. open file explorer and click **this pc** in the left sidebar.
+2. open the mapping tool:
+   - windows 11: click the three horizontal dots in the top menu bar and select **map network drive**.
+   - windows 10: click the **computer** tab at the top of the window, then click **map network drive**.
+3. choose an available drive letter from the dropdown (e.g. `z:` for the hdd, `y:` for the ssd).
+4. in the folder box, type the exact path to the share, using either the hostname or the ip address:
+   - `\\omv-server.local\ColdStorage`
+   - `\\omv-server.local\HotStorage`
+
+   (if the `.local` address is unreliable on the network, substitute the server's current ip, e.g. `\\192.168.1.50\ColdStorage`.)
+5. check both of these boxes:
+   - **reconnect at sign-in** — reconnects the drive automatically every time the windows pc starts.
+   - **connect using different credentials** — required, otherwise windows tries to authenticate with the signed-in microsoft account email instead of the server account.
+6. click **finish**.
+7. when the windows security prompt appears, enter the network credentials:
+   - username: `nasuser`
+   - password: the password created for this account in openmediavault
+   - check **remember my credentials**.
+8. click **ok**.
+
+the server folders now appear alongside the `c:` drive under **this pc**, complete with a storage capacity bar so free space on the 1 tb drives can be monitored without logging into the web gui.
+
+### fixing "multiple connections" errors when mapping
+
+windows enforces a strict rule: it will not connect to the same server using two different usernames at the same time. if the server was accessed earlier in the session, windows may be holding an open background connection (e.g. a guest profile or cached credential). when the map network drive tool then tries to authenticate as `nasuser`, windows blocks it with a multiple connections error.
+
+**step 1: clear hidden connections**
+
+1. open a command prompt (`cmd`).
+2. disconnect any existing connection to the server:
+
+   ```
+   net use \\192.168.1.50 /delete
+   ```
+
+   if it reports "the network connection could not be found", that's fine — proceed to the next command.
+3. clear all active network share connections:
+
+   ```
+   net use * /delete
+   ```
+
+   confirm with `y` when prompted.
+
+**step 2: clear the credential cache**
+
+1. open **credential manager** from the start menu.
+2. click **windows credentials**.
+3. look for any entries referencing `192.168.1.50` or `omv-server`.
+4. select and **remove** any that are found.
+
+**step 3: restart the windows networking stack (optional but recommended)**
+
+restarting the laptop guarantees windows forgets the old connection. alternatively, restart the workstation service from a command prompt:
+
+```
+net stop workstation /y
+net start workstation
+```
+
+**step 4: retry the mapping**
+
+repeat the [mapping server shares on windows](#mapping-server-shares-on-windows) steps, ensuring **connect using different credentials** is checked. enter the `nasuser` credentials when prompted and the connection should succeed.
 
 
 
