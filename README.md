@@ -1,6 +1,6 @@
 # Open Media Vault setup guide
 
-This is a deployment reference for setting up openmediavault on repurposed consumer laptop hardware, with emphasis on system stability, flash storage preservation, and explicit hardware control.
+this is a deployment reference for setting up openmediavault on repurposed consumer laptop hardware, with emphasis on system stability, flash storage preservation, and explicit hardware control.
 <br/>
 
 ## Table of contents
@@ -13,18 +13,21 @@ This is a deployment reference for setting up openmediavault on repurposed consu
 * [bios initialization](#bios-initialization)
 * [os installation](#os-installation)
 * [network rectification](#network-rectification)
+* [boot storage upgrade](#boot-storage-upgrade)
 
 #### Part 3 - Security and System Logic
 * [system hardening and plugins](#system-hardening-and-plugins)
-* [storage integration](#storage-integration)
 
 #### Part 4 - Data Management and Services
-* [data migration](#data-migration)
+* [storage integration](#storage-integration)
 * [hot storage setup](#hot-storage-setup)
-* [media server deployment](#media-server-deployment)
+* [data migration](#data-migration)
 * [mapping server shares on windows](#mapping-server-shares-on-windows)
 
-#### Part 5 - Operations and Maintenance
+#### Part 5 - Services
+* [media server deployment](#media-server-deployment)
+
+#### Part 6 - Operations and Maintenance
 * [sysadmin troubleshooting](#sysadmin-troubleshooting)
 
 <br/>
@@ -40,7 +43,8 @@ This is a deployment reference for setting up openmediavault on repurposed consu
 | boot environment | uefi |
 | wi-fi module | physically removed |
 
-> The wi-fi module is removed to eliminate interface conflicts, enforce ethernet as the sole network path and to minimize power consumption. First instance on omv was installed on a 8GB flash drive, but after installing the os, docker and jellyfin I was left with just ~700MB of free space. This is not sufficient for my requirements, thous I had to clone the os img to a 64 GB flash-drive. Old flash-drive is kept safely for redundancy.
+> the wi-fi module is removed to eliminate interface conflicts, enforce ethernet as the sole network path and to minimize power consumption. First instance on omv was installed on a 8GB flash drive, but after installing the os, docker and jellyfin I was left with just ~700MB of free space. This is not sufficient for my requirements, thous I had to clone the os img to a 64 GB flash-drive. Old flash-drive is kept safely for redundancy.
+
 <br/>
 
 
@@ -52,7 +56,8 @@ This is a deployment reference for setting up openmediavault on repurposed consu
 | SSD | 1 tb | connected (internal sata) | hot storage — docker, databases, active projects | ext4 |
 | HDD | 1 tb | connected (internal sata) | cold storage — archives, media, backups | ext4 |
 
-> During installation, the ssd and hdd are deliberately disconnected to prevent misidentification. They are reintroduced individually in later phases — see [storage integration](#storage-integration) and [hot storage setup](#hot-storage-setup).
+> during installation, the ssd and hdd are deliberately disconnected to prevent misidentification. They are reintroduced individually in later phases — see [storage integration](#storage-integration) and [hot storage setup](#hot-storage-setup).
+
 <br/>
 
 
@@ -66,7 +71,7 @@ This is a deployment reference for setting up openmediavault on repurposed consu
 6. verify **sata mode** is set to `ahci`.
 7. save and exit with `f10`.
 
-
+<br/>
 
 ## os installation
 
@@ -82,15 +87,24 @@ This is a deployment reference for setting up openmediavault on repurposed consu
    ```
 
 4. when prompted for a target disk, select the 8 gb usb. accept the uefi installation warning.
-5. complete the installation. detach the ventoy usb before the system reboots.
+5. complete the installation. detach the boot usb before the system reboots.
 
+<br/>
 
+## boot storage upgrade
+
+1. safely power down and remove the boot flash-drive from the system.
+2. plug it to the main pc and open `balena etcher`.
+3. click clone button and import as .img or .bin file.
+4. plug in the new flash-drive and flash the os using the previously imported file.
+
+<br/>
 
 ## network rectificating
 
 triggered if the server does not bind the configured ip address after installation.
 
-1. log in locally via the tty interface using `root` credentials.
+1. log in locally using `root` credentials.
 2. run `ip a` to inspect the current interface state.
 3. launch the network rescue utility:
 
@@ -104,7 +118,7 @@ triggered if the server does not bind the configured ip address after installati
    - disable wake-on-lan
 5. confirm the interface is bound to `192.168.1.50`.
 
-
+<br/>
 
 ## system hardening and plugins
 
@@ -129,7 +143,7 @@ triggered if the server does not bind the configured ip address after installati
 
 > **note:** the web gui will return a `500 internal server error` and drop the connection while nginx restarts to apply the plugin. this is expected. wait 60 seconds, then refresh the page.
 
-
+<br/>
 
 ## storage integration
 
@@ -142,11 +156,26 @@ triggered if the server does not bind the configured ip address after installati
 7. navigate to **services > smb/cifs > settings** and enable the service.
 8. navigate to **services > smb/cifs > shares**, add the `ColdStorage` folder, save, and apply all pending changes.
 
+<br/>
 
+## hot storage setup
+
+1. safely shut down the server and install the 1 tb ssd.
+2. boot the server and navigate to **storage > disks** to wipe the newly installed internal ssd.
+3. format the ssd as ext4 under **storage > file systems** and mount it.
+4. create two new shared folders:
+   - `HotStorage` — active projects and files
+   - `Appdata` — docker configurations
+5. grant the network user read/write privileges to both folders.
+6. expose `HotStorage` to the network via smb/cifs shares.
+
+<br/>
 
 ## data migration
 
-1. connect the existing ntfs windows ssd to the server via a usb 3.0 adapter to bypass wi-fi bottlenecks for bulk transfer.
+> if want to directly transfer from a drive formated in ntfs or having network bottlenecks due to bulk transfer.
+
+1. connect the drive to the server via a usb 3.0 adapter.
 2. ssh into the server and identify the usb drive partition:
 
    ```bash
@@ -171,7 +200,7 @@ triggered if the server does not bind the configured ip address after installati
 5. transfer directories explicitly, using quotes to handle spaces:
 
    ```bash
-   rsync -avh --progress "/mnt/windows_ssd/Movies" "/srv/dev-disk-by-uuid-.../ColdStorage/"
+   rsync -avh --progress "/mnt/windows_ssd/TV shows" "/srv/dev-disk-by-uuid-.../ColdStorage/"
    ```
 
 6. unmount the drive once transfers are complete:
@@ -180,34 +209,7 @@ triggered if the server does not bind the configured ip address after installati
    umount /mnt/windows_ssd
    ```
 
-
-
-## hot storage setup
-
-1. safely shut down the server, remove the usb adapter, and install the 1 tb ssd internally via sata.
-2. boot the server and navigate to **storage > disks** to wipe the newly installed internal ssd.
-3. format the ssd as ext4 under **storage > file systems** and mount it.
-4. create two new shared folders:
-   - `HotStorage` — active projects and files
-   - `Appdata` — docker configurations
-5. grant the network user read/write privileges to both folders.
-6. expose `HotStorage` to the network via smb/cifs shares.
-
-
-
-## media server deployment
-
-1. ensure media is split into strictly named directories (e.g. `/ColdStorage/Movies` and `/ColdStorage/TV Shows`) to prevent scraper conflicts.
-2. navigate to **system > omv-extras** and enable the docker repository.
-3. navigate to **system > plugins** and install `openmediavault-compose`.
-4. navigate to **services > compose > settings** and set the shared folder to `Appdata`.
-5. navigate to **services > compose > files** and create a new file named `Jellyfin`.
-6. map the `/config` volume to the `Appdata` path on the ssd for fast database loading.
-7. map the `/data/movies` and `/data/tvshows` volumes to their respective folders on the `ColdStorage` hdd (enclose paths with spaces in quotation marks).
-8. click **up** to pull the `linuxserver/jellyfin` image and start the container.
-9. access the setup wizard via `http://[SERVER_IP]:8096`.
-
-
+<br/>
 
 ## mapping server shares on windows
 
@@ -228,8 +230,8 @@ adding the server shares directly to file explorer makes them behave like native
    - **connect using different credentials** — required, otherwise windows tries to authenticate with the signed-in microsoft account email instead of the server account.
 6. click **finish**.
 7. when the windows security prompt appears, enter the network credentials:
-   - username: `nasuser`
-   - password: the password created for this account in openmediavault
+   - username: `user`
+   - password: 
    - check **remember my credentials**.
 8. click **ok**.
 
@@ -237,7 +239,7 @@ the server folders now appear alongside the `c:` drive under **this pc**, comple
 
 ### fixing "multiple connections" errors when mapping
 
-windows enforces a strict rule: it will not connect to the same server using two different usernames at the same time. if the server was accessed earlier in the session, windows may be holding an open background connection (e.g. a guest profile or cached credential). when the map network drive tool then tries to authenticate as `nasuser`, windows blocks it with a multiple connections error.
+windows enforces a strict rule: it will not connect to the same server using two different usernames at the same time. if the server was accessed earlier in the session, windows may be holding an open background connection (e.g. a guest profile or cached credential). when the map network drive tool then tries to authenticate as `user`, windows blocks it with a multiple connections error.
 
 **step 1: clear hidden connections**
 
@@ -275,9 +277,23 @@ net start workstation
 
 **step 4: retry the mapping**
 
-repeat the [mapping server shares on windows](#mapping-server-shares-on-windows) steps, ensuring **connect using different credentials** is checked. enter the `nasuser` credentials when prompted and the connection should succeed.
+repeat the [mapping server shares on windows](#mapping-server-shares-on-windows) steps, ensuring **connect using different credentials** is checked. enter the `user` credentials when prompted and the connection should succeed.
 
+<br/>
 
+## media server deployment
+
+1. ensure media is split into strictly named directories (e.g. `/ColdStorage/Movies` and `/HotStorage/TV Shows`) to prevent scraper conflicts.
+2. navigate to **system > omv-extras** and enable the docker repository.
+3. navigate to **system > plugins** and install `openmediavault-compose`.
+4. navigate to **services > compose > settings** and set the shared folder to `Appdata`.
+5. navigate to **services > compose > files** and create a new file named `Jellyfin`.
+6. map the `/config` volume to the `Appdata` path on the ssd for fast database loading.
+7. map the `/data/movies` and `/data/tvshows` volumes to their respective folders on the `ColdStorage` hdd (enclose paths with spaces in quotation marks).
+8. click **up** to pull the `linuxserver/jellyfin` image and start the container.
+9. access the setup wizard via `http://[SERVER_IP]:8096`.
+
+<br/>
 
 ## sysadmin troubleshooting
 
