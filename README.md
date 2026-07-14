@@ -1,25 +1,35 @@
 # Open Media Vault setup guide
 
 This is a deployment reference for setting up openmediavault on repurposed consumer laptop hardware, with emphasis on system stability, flash storage preservation, and explicit hardware control.
+<br/>
 
 ## Table of contents
 
-- [hardware overview](#hardware-overview)
-- [storage topology](#storage-topology)
-- [bios initialization](#bios-initialization)
-- [os installation](#os-installation)
-- [network rectification](#network-rectification)
-- [system hardening and plugins](#system-hardening-and-plugins)
-- [storage integration](#storage-integration)
-- [data migration](#data-migration)
-- [hot storage setup](#hot-storage-setup)
-- [media server deployment](#media-server-deployment)
-- [mapping server shares on windows](#mapping-server-shares-on-windows)
-- [sysadmin troubleshooting](#sysadmin-troubleshooting)
+#### Part 1 - Hardware
+* [hardware overview](#hardware-overview)
+* [storage topology](#storage-topology)
 
+#### Part 2 - Base System Provisioning
+* [bios initialization](#bios-initialization)
+* [os installation](#os-installation)
+* [network rectification](#network-rectification)
+
+#### Part 3 - Security and System Logic
+* [system hardening and plugins](#system-hardening-and-plugins)
+* [storage integration](#storage-integration)
+
+#### Part 4 - Data Management and Services
+* [data migration](#data-migration)
+* [hot storage setup](#hot-storage-setup)
+* [media server deployment](#media-server-deployment)
+* [mapping server shares on windows](#mapping-server-shares-on-windows)
+
+#### Part 5 - Operations and Maintenance
+* [sysadmin troubleshooting](#sysadmin-troubleshooting)
+
+<br/>
 
 ## hardware overview
-
 | Component | Detail |
 |---|---|
 | chassis | acer aspire es-575 |
@@ -31,6 +41,7 @@ This is a deployment reference for setting up openmediavault on repurposed consu
 | wi-fi module | physically removed |
 
 > The wi-fi module is removed to eliminate interface conflicts, enforce ethernet as the sole network path and to minimize power consumption. First instance on omv was installed on a 8GB flash drive, but after installing the os, docker and jellyfin I was left with just ~700MB of free space. This is not sufficient for my requirements, thous I had to clone the os img to a 64 GB flash-drive. Old flash-drive is kept safely for redundancy.
+<br/>
 
 
 ## storage topology
@@ -42,6 +53,7 @@ This is a deployment reference for setting up openmediavault on repurposed consu
 | HDD | 1 tb | connected (internal sata) | cold storage — archives, media, backups | ext4 |
 
 > During installation, the ssd and hdd are deliberately disconnected to prevent misidentification. They are reintroduced individually in later phases — see [storage integration](#storage-integration) and [hot storage setup](#hot-storage-setup).
+<br/>
 
 
 ## bios initialization
@@ -74,7 +86,7 @@ This is a deployment reference for setting up openmediavault on repurposed consu
 
 
 
-## network rectification
+## network rectificating
 
 triggered if the server does not bind the configured ip address after installation.
 
