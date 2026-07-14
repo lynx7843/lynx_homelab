@@ -25,7 +25,14 @@ this is a deployment reference for setting up openmediavault on repurposed consu
 * [mapping server shares on windows](#mapping-server-shares-on-windows)
 
 #### Part 5 - Services
-* [media server deployment](#media-server-deployment)
+* [jellyfin](#jellyfin)
+* [dawarich](#dawarich)
+* [glance](#glance)
+* [immich](#immich)
+* [nextcloud](#nextcloud)
+* [nginx](#nginx)
+* [open webui](#open-webui)
+* [vaultwarden](#vaultwarden)
 
 #### Part 6 - Operations and Maintenance
 * [sysadmin troubleshooting](#sysadmin-troubleshooting)
@@ -281,17 +288,18 @@ repeat the [mapping server shares on windows](#mapping-server-shares-on-windows)
 
 <br/>
 
-## media server deployment
+## jellyfin
 
 1. ensure media is split into strictly named directories (e.g. `/ColdStorage/Movies` and `/HotStorage/TV Shows`) to prevent scraper conflicts.
 2. navigate to **system > omv-extras** and enable the docker repository.
 3. navigate to **system > plugins** and install `openmediavault-compose`.
 4. navigate to **services > compose > settings** and set the shared folder to `Appdata`.
 5. navigate to **services > compose > files** and create a new file named `Jellyfin`.
-6. map the `/config` volume to the `Appdata` path on the ssd for fast database loading.
-7. map the `/data/movies` and `/data/tvshows` volumes to their respective folders on the `ColdStorage` hdd (enclose paths with spaces in quotation marks).
-8. click **up** to pull the `linuxserver/jellyfin` image and start the container.
-9. access the setup wizard via `http://[SERVER_IP]:8096`.
+6. copy and past the content at `Jellyfin.Dockerfile`
+7. map the `/config` volume to the `Appdata` path on the ssd for fast database loading.
+8. map the `/data/movies` and `/data/tvshows` volumes to their respective folders.
+9. click **up** to pull the `linuxserver/jellyfin` image and start the container.
+10. access the setup wizard via `http://[SERVER_IP]:8096`.
 
 <br/>
 
