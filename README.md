@@ -1,6 +1,6 @@
-# Home server setup guilde
+# Open Media Vault setup guide
 
-A deployment reference for setting up openmediavault on repurposed consumer laptop hardware, with emphasis on system stability, flash storage preservation, and explicit hardware control.
+This is a deployment reference for setting up openmediavault on repurposed consumer laptop hardware, with emphasis on system stability, flash storage preservation, and explicit hardware control.
 
 ## Table of contents
 
@@ -18,31 +18,30 @@ A deployment reference for setting up openmediavault on repurposed consumer lapt
 - [sysadmin troubleshooting](#sysadmin-troubleshooting)
 
 
-
 ## hardware overview
 
 | Component | Detail |
 |---|---|
 | chassis | acer aspire es-575 |
-| power | direct ac only (battery depleted) |
-| network | built-in gigabit ethernet (hardwired) |
+| primary storage | 64 GB Kingstone flashdrive |
+| secondary storage | two 1 TB SSD and HDD |
+| power | direct ac / battery |
+| network | built-in gigabit ethernet |
 | boot environment | uefi |
 | wi-fi module | physically removed |
 
-The wi-fi module is removed to eliminate interface conflicts and enforce ethernet as the sole network path.
-
+> The wi-fi module is removed to eliminate interface conflicts, enforce ethernet as the sole network path and to minimize power consumption. First instance on omv was installed on a 8GB flash drive, but after installing the os, docker and jellyfin I was left with just ~700MB of free space. This is not sufficient for my requirements, thous I had to clone the os img to a 64 GB flash-drive. Old flash-drive is kept safely for redundancy.
 
 
 ## storage topology
 
 | Drive | Capacity | Final operational state | Purpose | Filesystem |
 |---|---|---|---|---|
-| target usb | 8 gb | connected (boot) | host os (omv) | ext4 |
-| primary ssd | 1 tb | connected (internal sata) | hot storage — docker, databases, active projects | ext4 |
-| secondary hdd | 1 tb | connected (internal sata) | cold storage — archives, media, backups | ext4 |
+| target usb | 64 gb | connected (boot) | host os (omv) | ext4 |
+| SSD | 1 tb | connected (internal sata) | hot storage — docker, databases, active projects | ext4 |
+| HDD | 1 tb | connected (internal sata) | cold storage — archives, media, backups | ext4 |
 
-> during installation, the ssd and hdd are deliberately disconnected to prevent misidentification by the installer. they are reintroduced individually in later phases — see [storage integration](#storage-integration) and [hot storage setup](#hot-storage-setup).
-
+> During installation, the ssd and hdd are deliberately disconnected to prevent misidentification. They are reintroduced individually in later phases — see [storage integration](#storage-integration) and [hot storage setup](#hot-storage-setup).
 
 
 ## bios initialization
@@ -60,7 +59,7 @@ The wi-fi module is removed to eliminate interface conflicts and enforce etherne
 ## os installation
 
 1. trigger the boot menu with `f12` and boot the ventoy usb in uefi mode.
-2. select and boot the openmediavault iso from the ventoy menu.
+2. select and boot the openmediavault iso from the bootable drive.
 3. if a dhcp timeout is triggered during network configuration, bypass it and apply static parameters manually:
 
    ```
