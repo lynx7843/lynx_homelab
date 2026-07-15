@@ -303,6 +303,34 @@ repeat the [mapping server shares on windows](#mapping-server-shares-on-windows)
 
 <br/>
 
+## dawarich 
+
+<br/>
+
+## glance
+
+<br/>
+
+## immich
+
+<br/>
+
+## nextcloud
+
+<br/>
+
+## nginx
+
+<br/>
+
+## open webui
+
+<br/>
+
+## vaultwarden
+
+<br/>
+
 ## sysadmin troubleshooting
 
 **system lockups / blank menus**
