@@ -25,6 +25,7 @@ this is a deployment reference for setting up openmediavault on repurposed consu
 * [mapping server shares on windows](#mapping-server-shares-on-windows)
 
 #### Part 5 - Services
+- [tailscale](#tailscale)
 * [jellyfin](#jellyfin)
 * [dawarich](#dawarich)
 * [glance](#glance)
@@ -323,6 +324,25 @@ net start workstation
 **step 4: retry the mapping**
 
 repeat the [mapping server shares on windows](#mapping-server-shares-on-windows) steps, ensuring **connect using different credentials** is checked. enter the `user` credentials when prompted and the connection should succeed.
+
+<br/>
+
+## tailscale
+
+1. download and install the application
+   ```bash
+   curl -fsSL https://tailscale.com/install.sh | sh
+   ```
+2. spin it up
+   ```bash
+   tailscale up
+   ```
+3. login using the output link from the above command
+4. after getting **success** output verify the connect using
+   ```bash
+   tailscale ip -4
+   ```
+5. test the ssh connect using the the output ip number
 
 <br/>
 
