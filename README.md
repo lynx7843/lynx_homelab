@@ -104,6 +104,44 @@ this is a deployment reference for setting up openmediavault on repurposed consu
 2. plug it to the main pc and open `balena etcher`.
 3. click clone button and import as .img or .bin file.
 4. plug in the new flash-drive and flash the os using the previously imported file.
+5. to resize the new drive available space first we need to find the exact name of the boot partition, run:
+   ```bash
+   df -h /
+   ```
+6. now use Debian's visual partition manager to expand the boundary. Type this command, omitting the number at the end (e.g., if it was sdb2, just type sdb):
+   ```bash
+   cfdisk /dev/sdb
+   ```
+7. a visual terminal interface will appear. Use your keyboard arrows to highlight the partition that holds your OS.
+8. if there is a swap partition between the free space and system partition we need to temporarily disable it, run in the normal terminal:
+   ```bash
+   swapoff -a
+   ```
+10. then go back to the previous interface and use the Left/Right arrows to select  **Resize** at the bottom and hit Enter.
+11. It will ask for the new size. It automatically defaults to the absolute maximum available space. Just hit Enter.
+12. arrow over to **Write** and hit Enter.
+13. it will ask "Are you sure you want to write the partition table to disk?". Type yes and hit Enter.
+14. arrow over to **Quit** and hit Enter.
+> ignore the below commands if swap wasn't changed
+
+<br/>
+
+15. stretch the os filesystem into the new space:
+    ```bash
+    resize2fs /dev/sdc2
+    ```
+16. format the new swap partition
+    ```bash
+    mkswap /dev/sdc3
+    ```
+17. update the os map
+    ```bash
+    nano /etc/fstab
+    ```
+18. turn swap back on
+    ```bash
+    swapon -a
+    ```
 
 <br/>
 
