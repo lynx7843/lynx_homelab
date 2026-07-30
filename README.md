@@ -295,12 +295,25 @@ repeat the [mapping server shares on windows](#mapping-server-shares-on-windows)
 3. navigate to **system > plugins** and install `openmediavault-compose`.
 4. navigate to **services > compose > settings** and set the shared folder to `Appdata`.
 5. navigate to **services > compose > files** and create a new file named `Jellyfin`.
-6. copy and past the content at `Jellyfin.Dockerfile`
+6. copy and past the content at `Jellyfin.yaml`
 7. map the `/config` volume to the `Appdata` path on the ssd for fast database loading.
 8. map the `/data/movies` and `/data/tvshows` volumes to their respective folders.
-9. click **up** to pull the `linuxserver/jellyfin` image and start the container.
+9. click **up** to pull the `jellyfin` image and start the container.
 10. access the setup wizard via `http://[SERVER_IP]:8096`.
 
+pro tip: organize the file structure like below to to avoid meta-data mismatches or non at all
+```bash
+TV Shows/
+└── Breaking Bad/
+    └── Season 1/
+        ├── Breaking Bad - S01E01.mp4
+        ├── Breaking Bad - S01E02.mp4
+        └── Breaking Bad - S01E03.mp4
+```
+<br/>
+to speed up the remaining process use a tool like **powerrename** included in **powertoys** (only for windows users)
+
+<br/>
 <br/>
 
 ## dawarich 
