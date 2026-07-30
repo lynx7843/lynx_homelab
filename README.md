@@ -398,3 +398,8 @@ if a hard drive disconnects, the mount path folder remains on the os drive. runn
 
 **web gui pending configuration loops**
 if a forced reboot interrupts omv, run `dpkg --configure -a` and `apt-get -f install` via ssh to repair damaged packages, then restart the engine with `systemctl restart openmediavault-engined`.
+
+**time-zone changing after installation**
+if incorrect time zone is set during the os installation process use `timedatectl set-timezone Asia/[CITY]` to change it to the required timezone. also update omv dashboard time and date by navigating to **Date & Time** section and select the required time zone from the dropdown menu. finally don't forget to update docker files if they are set to different time zones different from system.
+
+
