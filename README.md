@@ -422,4 +422,9 @@ if a forced reboot interrupts omv, run `dpkg --configure -a` and `apt-get -f ins
 **time-zone changing after installation**
 if incorrect time zone is set during the os installation process use `timedatectl set-timezone Asia/[CITY]` to change it to the required timezone. also update omv dashboard time and date by navigating to **Date & Time** section and select the required time zone from the dropdown menu. finally don't forget to update docker files if they are set to different time zones different from system.
 
+**ruby on rails application boots up crash (dawarich)**
+sometimes if the server shutdowns abruptly due to power cut or docker engine shut down `server.pid` file never gets chance to clear itself and when the system restarts it thinks two identical services are running and dawarich crashes. to fix this run this simple command to delete that temporary file: `docker rm -f dawarich`
+
+
+
 
