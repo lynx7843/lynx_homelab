@@ -417,6 +417,25 @@ to speed up the remaining process use a tool like **powerrename** included in **
 
 ## nextcloud
 
+1. open omv dashboard and navigate to services > components > files
+2. click create and enter `Nextcloud` for name
+3. paste the code form `nextcloud.yml`
+> Note: replace `[SSD-UUID]` and `[HDD-UUID]` with actual drive IDs.
+
+<br/>
+
+4. to setup external storage login to nextcloud dashboard
+5. click profile icon and select **Apps**
+6. in the left-hand menu, look for **Disabled apps** (or search for "External storage")
+7. find the app called External storage support and click Enable.
+8. click your profile picture again and go to **Administration settings**.
+9. in the left-hand menu, under the **Administration** section, click **External storages**.
+10. in the **Add storage** row, configure it exactly like this:
+    - folder name: `Fast SSD Workspace`
+    - external storage dropdown: Select **Local**
+    - configuration: `/fast-workspace`
+11. click checkmark icon to save
+
 <br/>
 
 ## open webui
