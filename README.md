@@ -425,6 +425,11 @@ to speed up the remaining process use a tool like **powerrename** included in **
 
 ## vaultwarden
 
+1. navigate to services > components > files
+2. create a file named `vaultwarden`
+3. paste the code from `vaultwarden.yml`
+4. save and click `**up**
+
 <br/>
 
 ## sysadmin troubleshooting
