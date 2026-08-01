@@ -348,6 +348,18 @@ repeat the [mapping server shares on windows](#mapping-server-shares-on-windows)
 
 ## nginx
 
+1. login to omv web dashboard and navigate to services > compose > files
+2. create a file named `npm` and paste in the code from `NPM.yml`
+> note: change `[SSD-UUID]` with the actual `HotStorage` drive ID
+
+<br/>
+
+3. save and click **up**
+4. login to nginx dashboard using the default credentials:
+   - email: `admin@example.com`
+   - password: `changeme`
+5. after logging in change the email and password
+
 <br/>
 
 ## jellyfin
