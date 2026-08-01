@@ -408,7 +408,7 @@ to speed up the remaining process use a tool like **powerrename** included in **
 10. if it crash try increasing the **propagation seconds** to 120 or 300
 11. now to create proxy host, go to hosts > proxy hosts >  add proxy host
 12. under the details:
-    - domain name: [dawarich domain name].duckdns.org
+    - domain name: `[dawarich domain name].duckdns.org`
     - scheme: `http`
     - forward hostname/IP: `192.168.1.50`
     - forward port: `[port set on dawarich.yml]`
@@ -460,9 +460,31 @@ to speed up the remaining process use a tool like **powerrename** included in **
 1. navigate to services > components > files
 2. create a file named `vaultwarden`
 3. paste the code from `vaultwarden.yml`
-4. save and click `**up**
+4. change `SIGNUPS_ALLOWED=false` to `SIGNUPS_ALLOWED=true` under **environments**
+5. save and click `**up**
+6. login to **duck dns** and create a new domain for vaultwarden
+7. for the ip under the domain use tailscale ip followed by port number of vaultwarden service
+8. to provide SSL certificate login to your **nginx proxy manager**
+9. go to certificate > add certificate > let's encrypt via dns
+10. input your **duck dns** domain created for vaultwarden and **duck dns** token
+11. **save** and wait for the verification process to complete
+12. if it crash try increasing the **propagation seconds** to 120 or 300
+13. now to create proxy host, go to hosts > proxy hosts >  add proxy host
+14. under the details:
+    - domain name: `[vaultwarden domain name].duckdns.org`
+    - scheme: `http`
+    - forward hostname/IP: `192.168.1.50`
+    - forward port: `[port set on vaultwarden.yml]`
+    - toggle **command exploits** and **websockets support** `on`
+15. under ssl tab 
+    - select ssl certificate name set for vaultwarden
+    - toggle force **SSL** and **HTTP/2 support** to `on`
+16. click **save**
+17. test the service and signup
+18. change docker file `SIGNUPS_ALLOWED` back to `false` for security
 
 <br/>
+
 
 ## sysadmin troubleshooting
 
