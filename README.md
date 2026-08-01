@@ -400,22 +400,23 @@ to speed up the remaining process use a tool like **powerrename** included in **
 2. deploy dawarich file (provided in the repository) using omv dashboard as `dawarich`
 3. click `up` to pull the image and launch the stack
 4. login to **duck dns** and create a new domain for dawarich
-5. to provide SSL certificate login to your **nginx proxy manager**
-6. go to certificate > add certificate > let's encrypt via dns
-7. input your **duck dns** domain created for dawarich and **duck dns** token
-8. **save** and wait for the verification process to complete
-9. if it crash try increasing the **propagation seconds** to 120 or 300
-10. now to create proxy host, go to hosts > proxy hosts >  add proxy host
-11. under the details:
+5. for the ip under the domain use tailscale ip followed by port number (example: `100.104.53.16:80`)
+6. to provide SSL certificate login to your **nginx proxy manager**
+7. go to certificate > add certificate > let's encrypt via dns
+8. input your **duck dns** domain created for dawarich and **duck dns** token
+9. **save** and wait for the verification process to complete
+10. if it crash try increasing the **propagation seconds** to 120 or 300
+11. now to create proxy host, go to hosts > proxy hosts >  add proxy host
+12. under the details:
     - domain name: [dawarich domain name].duckdns.org
     - scheme: `http`
     - forward hostname/IP: `192.168.1.50`
     - forward port: `[port set on dawarich.yml]`
     - toggle **command exploits** and **websockets support** `on`
-12. under ssl tab 
+13. under ssl tab 
     - select ssl certificate name set for dawarich
     - toggle force **SSL** and **HTTP/2 support** to `on`
-13. click **save** 
+14. click **save** 
 
 <br/>
 
