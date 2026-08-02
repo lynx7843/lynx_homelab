@@ -426,6 +426,17 @@ to speed up the remaining process use a tool like **powerrename** included in **
 
 ## immich
 
+1. run the following commands to create the infrastructure
+   ```bash
+   mkdir -p /srv/dev-disk-by-uuid-[YOUR ID]/HotStorage/Appdata/immich/postgres
+   mkdir -p /srv/dev-disk-by-uuid-[YOUR ID]/HotStorage/Appdata/immich/model-cache
+   mkdir -p /srv/dev-disk-by-uuid-[YOUR ID]/HotStorage/ImmichLibrary
+   ```
+2. navigate to services > compose > files
+3. create a new file as immich
+4. paste the code from `immich.yml`
+5. click **save** and **up**
+
 <br/>
 
 ## nextcloud
