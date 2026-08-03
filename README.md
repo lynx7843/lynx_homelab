@@ -446,7 +446,12 @@ to speed up the remaining process use a tool like **powerrename** included in **
    - forward port: `immich port`
    - toggle **block common exploits** and **websockets support** to **on**
 10. attach your SSL certificate under the SSL tab, force SSL, and click Save
-
+11. open immich dashboard click **Getting started** and create the master administrator account
+12. to trigger the external scan navigate to **administration menu**
+13. open the sidebar and click **External Libraries**
+14. click **create library** and give it a name
+15. under import paths click add path and type `/usr/src/app/external`
+16. save the library, click the 3 dot menu next to it and select **scan new library files**
 
 <br/>
 
@@ -531,6 +536,11 @@ if incorrect time zone is set during the os installation process use `timedatect
 **ruby on rails application boots up crash (dawarich)**
 sometimes if the server shutdowns abruptly due to power cut or docker engine shut down `server.pid` file never gets chance to clear itself and when the system restarts it thinks two identical services are running and dawarich crashes. to fix this run this simple command to delete that temporary file: `docker rm -f dawarich`
 
-
+**immich initialization fail due to ghost database**
+after changing immich docker file or after a critical service crash immich can leave ghost files behind which interrupts service starting procedure after a restart. to fix this run the following commands to purge the `postgres` folder and instantly recreate it, after that click up button under immich to restart the service
+```bash
+rm -rf /srv/dev-disk-by-uuid-1d3a96a7-14aa-4648-82ea-fb4ffec5d4c1/HotStorage/Appdata/immich/postgres
+mkdir -p /srv/dev-disk-by-uuid-1d3a96a7-14aa-4648-82ea-fb4ffec5d4c1/HotStorage/Appdata/immich/postgres
+```
 
 
