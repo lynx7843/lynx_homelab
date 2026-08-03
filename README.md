@@ -480,6 +480,20 @@ to speed up the remaining process use a tool like **powerrename** included in **
 
 ## open webui
 
+1. create the following 2 directories
+   ```bash
+   mkdir -p /srv/dev-disk-by-uuid-1d3a96a7-14aa-4648-82ea-fb4ffec5d4c1/HotStorage/Appdata/openwebui
+   mkdir -p /srv/dev-disk-by-uuid-1d3a96a7-14aa-4648-82ea-fb4ffec5d4c1/HotStorage/Appdata/ollama
+   ```
+2. open **omv** and navigate to services > compose > files
+3. click **create** and name it as `open-webui`
+4. paste the code from `open-webui.yml`
+5. login to **duck dns** and create a domain for this with tailscale ip
+6. open **nginx dashboard** and create new SSL certificate with that domain
+7. set up the Proxy Host mapping your domain to `[local server ip]` on port provided in the `.yml` file
+8. toggle Websockets to ON (this is critical, as Open WebUI streams text in real-time via websockets)
+9. navigate to open-webui dashboard and create the master admin account
+   
 <br/>
 
 ## vaultwarden
