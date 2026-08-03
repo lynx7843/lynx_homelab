@@ -400,7 +400,7 @@ to speed up the remaining process use a tool like **powerrename** included in **
 2. deploy dawarich file (provided in the repository) using omv dashboard as `dawarich`
 3. click `up` to pull the image and launch the stack
 4. login to **duck dns** and create a new domain for dawarich
-5. for the ip under the domain use tailscale ip followed by port number (example: `100.104.53.16:80`)
+5. for the ip under the domain use tailscale ip (example: `100.104.53.16`)
 6. to provide SSL certificate login to your **nginx proxy manager**
 7. go to certificate > add certificate > let's encrypt via dns
 8. input your **duck dns** domain created for dawarich and **duck dns** token
@@ -436,6 +436,17 @@ to speed up the remaining process use a tool like **powerrename** included in **
 3. create a new file as immich
 4. paste the code from `immich.yml`
 5. click **save** and **up**
+6. login to `duckdns` dashboard and allocate a new domain and point it to tailscale IP
+7. open **nginx proxy manager**
+8. generate a new Let's Encrypt certificate for l`ynx-photos.duckdns.org` using the DNS challenge method, just like before
+9. go to hosts > proxy hosts > add proxy host
+   - domain names: `[immich domain].duckdns.org`
+   - scheme: `http`
+   - forward hostname/ ip: `[server ip]`
+   - forward port: `immich port`
+   - toggle **block common exploits** and **websockets support** to **on**
+10. attach your SSL certificate under the SSL tab, force SSL, and click Save
+
 
 <br/>
 
