@@ -394,8 +394,8 @@ to speed up the remaining process use a tool like **powerrename** included in **
 
 1. run the following command to create the directories:
    ```bash
-   mkdir -p /srv/dev-disk-by-uuid-1d3a96a7-14aa-4648-82ea-fb4ffec5d4c1/HotStorage/Appdata/dawarich/postgres
-   mkdir -p /srv/dev-disk-by-uuid-1d3a96a7-14aa-4648-82ea-fb4ffec5d4c1/HotStorage/Appdata/dawarich/redis
+   mkdir -p /srv/dev-disk-by-uuid-[YOUR UUID]/HotStorage/Appdata/dawarich/postgres
+   mkdir -p /srv/dev-disk-by-uuid-[YOUR UUID]/HotStorage/Appdata/dawarich/redis
    ```
 2. deploy dawarich file (provided in the repository) using omv dashboard as `dawarich`
 3. click `up` to pull the image and launch the stack
@@ -482,17 +482,19 @@ to speed up the remaining process use a tool like **powerrename** included in **
 
 1. create the following 2 directories
    ```bash
-   mkdir -p /srv/dev-disk-by-uuid-1d3a96a7-14aa-4648-82ea-fb4ffec5d4c1/HotStorage/Appdata/openwebui
-   mkdir -p /srv/dev-disk-by-uuid-1d3a96a7-14aa-4648-82ea-fb4ffec5d4c1/HotStorage/Appdata/ollama
+   mkdir -p /srv/dev-disk-by-uuid-[YOUR UUID]/HotStorage/Appdata/openwebui
    ```
 2. open **omv** and navigate to services > compose > files
 3. click **create** and name it as `open-webui`
 4. paste the code from `open-webui.yml`
 5. login to **duck dns** and create a domain for this with tailscale ip
 6. open **nginx dashboard** and create new SSL certificate with that domain
-7. set up the Proxy Host mapping your domain to `[local server ip]` on port provided in the `.yml` file
-8. toggle Websockets to ON (this is critical, as Open WebUI streams text in real-time via websockets)
-9. navigate to open-webui dashboard and create the master admin account
+7. create the proxy host
+   - domain: `[open-webui domain].duckdns.org`
+   - forward hostname/ ip: `[local server ip]`
+   - forward port: `[port number in the yml file]`
+   - websocket support: **on** (crucial)
+   - apply the SSL certificate and force SSL
    
 <br/>
 
@@ -553,8 +555,8 @@ sometimes if the server shutdowns abruptly due to power cut or docker engine shu
 **immich initialization fail due to ghost database**
 after changing immich docker file or after a critical service crash immich can leave ghost files behind which interrupts service starting procedure after a restart. to fix this run the following commands to purge the `postgres` folder and instantly recreate it, after that click up button under immich to restart the service
 ```bash
-rm -rf /srv/dev-disk-by-uuid-1d3a96a7-14aa-4648-82ea-fb4ffec5d4c1/HotStorage/Appdata/immich/postgres
-mkdir -p /srv/dev-disk-by-uuid-1d3a96a7-14aa-4648-82ea-fb4ffec5d4c1/HotStorage/Appdata/immich/postgres
+rm -rf /srv/dev-disk-by-uuid-[YOUR UUID]/HotStorage/Appdata/immich/postgres
+mkdir -p /srv/dev-disk-by-uuid-[YOUR UUID]/HotStorage/Appdata/immich/postgres
 ```
 
 
