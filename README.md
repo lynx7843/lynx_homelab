@@ -484,7 +484,14 @@ to speed up the remaining process use a tool like **powerrename** included in **
                        url: [YOUR URL]
                        icons: cloud
    ```
-4. `Ctrl + O`, `Enter` and `Ctrl + X` to save 
+4. `Ctrl + O`, `Enter` and `Ctrl + X` to save
+5. create a new compose file using
+   ```bash
+   nano /srv/dev-disk-by-uuid-[YOUR UUID]/HotStorage/Appdata/glance/docker-compose.yml
+   ```
+6. navigate to services > compose > files
+7. create a new file as glance and paste the code from `glance.yml`
+8. **save** and **up**
 
 <br/>
 
