@@ -502,6 +502,18 @@ to speed up the remaining process use a tool like **powerrename** included in **
 12. in the **set base URL** field paste `https://generativelanguage.googleapis.com/v1beta/openai/`
 13. in the **set API key** field paste the API key
 14. click **save**
+
+<br/>
+
+> To get gemini API key:
+
+<br/>
+
+1. navigate to `aistudio.google.com`
+2. log in to the google account
+3. click the prominent **Get API Key** button in the top left
+4. click **create API key** and select a project
+5. copy the long string of characters provided
    
 <br/>
 
