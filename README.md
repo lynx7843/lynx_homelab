@@ -495,6 +495,13 @@ to speed up the remaining process use a tool like **powerrename** included in **
    - forward port: `[port number in the yml file]`
    - websocket support: **on** (crucial)
    - apply the SSL certificate and force SSL
+8. to initialize cloud connection (gemini) open **admin panel**
+9. navigate to **settings** on the sidebar and click on the **connection** tab
+10. scroll down until you see the **google AI studio** and enable it
+11. click the + button (Add Connections)
+12. in the **set base URL** field paste `https://generativelanguage.googleapis.com/v1beta/openai/`
+13. in the **set API key** field paste the API key
+14. click **save**
    
 <br/>
 
