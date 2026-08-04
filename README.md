@@ -492,6 +492,9 @@ to speed up the remaining process use a tool like **powerrename** included in **
 6. navigate to services > compose > files
 7. create a new file as glance and paste the code from `glance.yml`
 8. **save** and **up**
+9. create a domain in **duck dns** using **tailscale** ip
+10. open nginx proxy manager dashboard
+11. navigate to certificate > add certificate > let's encrypt via dns
 
 <br/>
 
