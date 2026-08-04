@@ -422,6 +422,70 @@ to speed up the remaining process use a tool like **powerrename** included in **
 
 ## glance
 
+1. create the following directories:
+   ```bash
+   mkdir -p /srv/dev-disk-by-uuid-[YOUR UUID]/HotStorage/Appdata/glance
+   ```
+2. open config file using nano:
+   ```bash
+   nano /srv/dev-disk-by-uuid-[YOUR UUID]/HotStorage/Appdata/glance/glance.yml
+   ```
+3. paste the following code:
+   ```bash
+   theme: dynamic
+
+   pages:
+     - name: Homelab
+       columns:
+         - size: small
+           widgets:
+             - type: clock
+               time-format: 24h
+               show-date: true
+             - type: weather
+               location: "Colombo, Sri Lanka"
+               unit: celsius
+   
+         - size: full
+           widgets:
+             - type: bookmarks
+               groups:
+                 - name: Core Infrastructure
+                   links:
+                     - title: Nginx Proxy Manager
+                       url: [YOUR URL]
+                       icon: shield
+                     - title: Vaultwarden
+                       url: [YOUR URL]
+                       icon: lock
+                     - title: Tailscale
+                       url: [YOUR URL
+                       icon: shield
+                     - title: OMV
+                       url: [YOUR URL]
+                       icon: shield
+                 - name: Cloud & Media
+                   links:
+                     - title: Nextcloud
+                       url: [YOUR URL]
+                       icon: cloud
+                     - title: Jellyfin
+                       url: [YOUR URL]
+                       icon: video
+                     - title: Immich
+                       url: [YOUR URL]
+                       icon: picture
+                 - name: Miscellaneous
+                   links:
+                     - title: Open WebUI
+                       url: [YOUR URL]
+                       icons: cloud
+                     - title: dawarich
+                       url: [YOUR URL]
+                       icons: cloud
+   ```
+4. `Ctrl + O`, `Enter` and `Ctrl + X` to save 
+
 <br/>
 
 ## immich
