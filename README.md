@@ -495,6 +495,20 @@ to speed up the remaining process use a tool like **powerrename** included in **
 9. create a domain in **duck dns** using **tailscale** ip
 10. open nginx proxy manager dashboard
 11. navigate to certificate > add certificate > let's encrypt via dns
+12. input your **duck dns** domain created for glance and **duck dns** token
+13. **save** and wait for the verification process to complete
+14. if it crash try increasing the **propagation seconds** to 120 or 300
+15. now to create proxy host, go to hosts > proxy hosts >  add proxy host
+16. under the details:
+    - domain name: `[glance domain name].duckdns.org`
+    - scheme: `http`
+    - forward hostname/IP: `192.168.1.50`
+    - forward port: `[port set on glance.yml]`
+    - toggle **command exploits** and **websockets support** `on`
+17. under ssl tab 
+    - select ssl certificate name set for glance
+    - toggle force **SSL** and **HTTP/2 support** to `on`
+18. click **save**
 
 <br/>
 
@@ -512,7 +526,7 @@ to speed up the remaining process use a tool like **powerrename** included in **
 5. click **save** and **up**
 6. login to `duckdns` dashboard and allocate a new domain and point it to tailscale IP
 7. open **nginx proxy manager**
-8. generate a new Let's Encrypt certificate for l`ynx-photos.duckdns.org` using the DNS challenge method, just like before
+8. generate a new Let's Encrypt certificate for `[domain name].duckdns.org` using the DNS challenge method, just like before
 9. go to hosts > proxy hosts > add proxy host
    - domain names: `[immich domain].duckdns.org`
    - scheme: `http`
