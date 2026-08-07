@@ -666,4 +666,9 @@ rm -rf /srv/dev-disk-by-uuid-[YOUR UUID]/HotStorage/Appdata/immich/postgres
 mkdir -p /srv/dev-disk-by-uuid-[YOUR UUID]/HotStorage/Appdata/immich/postgres
 ```
 
+**getting logs relevant to a docker service**
+use the following command to get the last 50 entries in docker logs
+```bash
+docker logs <container_name_or_id> --tail 50
+```
 
